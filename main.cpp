@@ -59,6 +59,16 @@ string postfix2infix(string postfix)
         //if character
         if(isSign == false)
         {
+            if(postfix[i]=='.')
+            {
+                result.append(string (1,postfix[i-1]));
+                result.append(".");
+                result.append(string (1,postfix[i+1]));
+                i++;
+                Stack.push(result);
+                result="";
+            }
+            else
             Stack.push(string (1,postfix[i]));
         }
     }
