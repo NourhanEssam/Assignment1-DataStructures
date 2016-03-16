@@ -65,6 +65,7 @@ string postfix2infix(string postfix)
                 result.append(".");
                 result.append(string (1,postfix[i+1]));
                 i++;
+                Stack.pop();
                 Stack.push(result);
                 result="";
             }
