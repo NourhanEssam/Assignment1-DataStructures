@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stack>
 #include <sstream>
+#include <boost/algorithm/string.hpp>
 using namespace std;
 
 string postfix2infix(string postfix);
@@ -12,7 +13,7 @@ int main()
     while(1)
     {
         cout<<"Please enter a postfix expression :"<<endl;
-        cin>>postfix;
+        getline(cin,postfix);
 
         infix = postfix2infix(postfix);
         cout<<"The infix expression is : "<<infix<<endl;
@@ -32,6 +33,8 @@ string postfix2infix(string postfix)
     string operators[] = {"+","-","*","/","^"};
     stack<string> Stack;
     bool isSign;
+
+    boost::erase_all(postfix, " ");
 
     for(int i=0;i<postfix.size();i++)
     {
