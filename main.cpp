@@ -9,19 +9,14 @@ string postfix2infix(string postfix);
 int main()
 {
     string postfix,infix;
-    char c;
+
     while(1)
     {
         cout<<"Please enter a postfix expression :"<<endl;
         getline(cin,postfix);
 
         infix = postfix2infix(postfix);
-        cout<<"The infix expression is : "<<infix<<endl;
-
-        cout<<"To enter another expression press any key .. To exit press q .. "<<endl;
-        cin>>c;
-        if(c=='q')
-            break;
+        cout<<"The infix expression is : "<<infix<<endl<<endl;
     }
 
     return 0;
