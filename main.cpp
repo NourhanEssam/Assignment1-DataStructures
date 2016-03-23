@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stack>
 #include <sstream>
-#include <vector>
 using namespace std;
 
 string postfix2infix(string postfix);
@@ -31,6 +30,7 @@ string postfix2infix(string postfix)
     int numberOfOperands=0,i = 0;
     string postfixArray[1000];
     stringstream ssin(postfix);
+    bool special=false;
 
     while (ssin.good() && i < postfix.size()){
         ssin >> postfixArray[i];
@@ -38,9 +38,6 @@ string postfix2infix(string postfix)
         numberOfOperands++;
     }
 
-    for(i = 0; i < numberOfOperands; i++){
-        cout << postfixArray[i] << endl;
-    }
 
     for(int i=0;i<numberOfOperands;i++)
     {
@@ -68,7 +65,56 @@ string postfix2infix(string postfix)
         //if character
         if(isSign == false)
         {
-            Stack.push(postfixArray[i]);
+            special = false;
+            for(int k=0;k<postfixArray[i].length();k++)
+            {
+                if(postfixArray[i][k]=='.')
+                {
+                    for(int l=0;l<k;l++)
+                        result.append(string(1,postfixArray[i][l]));
+                    result.append(".");
+                    for(int l=k+1;l<postfixArray[i].length();l++)
+                        result.append(string (1,postfixArray[i][l]));
+                    Stack.push(result);
+                    result="";
+                    special=true;
+                }
+                else if(postfixArray[i][k]=='s' && postfixArray[i][k+1]=='i' && postfixArray[i][k+2]=='n')
+                {
+                    result.append("sin(");
+                    for(int l=k+3;l<postfixArray[i].length();l++)
+                    result.append(string(1,postfixArray[i][l]));
+                    result.append(")");
+                    Stack.push(result);
+                    result="";
+                    special=true;
+                }
+                else if(postfixArray[i][k]=='c' && postfixArray[i][k+1]=='o' && postfixArray[i][k+2]=='s')
+                {
+                    result.append("cos(");
+                    for(int l=k+3;l<postfixArray[i].length();l++)
+                    result.append(string(1,postfixArray[i][l]));
+                    result.append(")");
+                    Stack.push(result);
+                    result="";
+                    special=true;
+                }
+                else if(postfixArray[i][k]=='s' && postfixArray[i][k+1]=='q' && postfixArray[i][k+2]=='r' && postfixArray[i][k+3]=='t')
+                {
+                    result.append("sqrt(");
+                    for(int l=k+4;l<postfixArray[i].length();l++)
+                    result.append(string(1,postfixArray[i][l]));
+                    result.append(")");
+                    Stack.push(result);
+                    result="";
+                    special=true;
+                }
+                else
+                {
+                    if(k==postfixArray[i].length()-1 && !special)
+                    Stack.push(postfixArray[i]);
+                }
+            }
         }
     }
     infix = Stack.top();
