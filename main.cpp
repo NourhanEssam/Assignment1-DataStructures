@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stack>
 #include <sstream>
-#include <boost/algorithm/string.hpp>
+#include <vector>
 using namespace std;
 
 string postfix2infix(string postfix);
@@ -28,16 +28,27 @@ string postfix2infix(string postfix)
     string operators[] = {"+","-","*","/","^"};
     stack<string> Stack;
     bool isSign;
+    int numberOfOperands=0,i = 0;
+    string postfixArray[1000];
+    stringstream ssin(postfix);
 
-    boost::erase_all(postfix, " ");
+    while (ssin.good() && i < postfix.size()){
+        ssin >> postfixArray[i];
+        ++i;
+        numberOfOperands++;
+    }
 
-    for(int i=0;i<postfix.size();i++)
+    for(i = 0; i < numberOfOperands; i++){
+        cout << postfixArray[i] << endl;
+    }
+
+    for(int i=0;i<numberOfOperands;i++)
     {
         isSign=false;
         for(int j=0;j<5;j++)
         {
             //if sign
-            if(postfix[i] == operators[j][0] && isSign == false)
+            if(postfixArray[i] == operators[j] && isSign == false)
             {
                 isSign=true;
                 string second = Stack.top();
@@ -57,18 +68,7 @@ string postfix2infix(string postfix)
         //if character
         if(isSign == false)
         {
-            if(postfix[i]=='.')
-            {
-                result.append(string (1,postfix[i-1]));
-                result.append(".");
-                result.append(string (1,postfix[i+1]));
-                i++;
-                Stack.pop();
-                Stack.push(result);
-                result="";
-            }
-            else
-            Stack.push(string (1,postfix[i]));
+            Stack.push(postfixArray[i]);
         }
     }
     infix = Stack.top();
